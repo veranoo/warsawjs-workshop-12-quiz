@@ -2,7 +2,7 @@
   <div class="c-game o-vertical-fill has-text-centered">
     <div class="o-vertical-fill__item o-vertical-fill__item--fixed">
       <div class="c-game__question-title">
-        Question for {{ question.reward }}
+        Question for {{ question.reward | currency }}
       </div>
       <div class="c-game__question-difficulty">
         Difficulty: {{ question.difficulty }}
@@ -12,18 +12,19 @@
       </div>
     </div>
     <div class="o-vertical-fill__item c-game__question-text-container">
-      <div class="c-game__question-text">
-        {{ question.text }}
+      <div class="c-game__question-text" v-html="question.text">
       </div>
+      <slot></slot>
     </div>
     <div class="c-game__answers o-vertical-fill__item o-vertical-fill__item--fixed">
       <div class="columns is-multiline">
         <div class="column is-half" v-for="(item, index) in question.answers">
           <div
             class="c-game__answer button is-large is-primary is-fullwidth"
-            @click="onClickAnswer(index)"
+            @click="$emit('submitted', index)"
           >
-            {{ item }}
+            <span v-html="item"></span>
+            <span v-if="question.correctAnswer === index">*</span>
           </div>
         </div>
       </div>
@@ -33,16 +34,7 @@
 
 <script>
   export default {
-    props: ['question'],
-    methods: {
-      onClickAnswer(index) {
-        if (this.question.correctAnswer === index) {
-          this.$parent.$emit('vaildAnswer', true);
-        } else {
-          console.log('fail')
-        }
-      }
-    }
+    props: ['question']
   }
 </script>
 
