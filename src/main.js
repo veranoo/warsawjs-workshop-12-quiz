@@ -4,13 +4,14 @@ import Vue from 'vue'
 import './vendor'
 import router from './router'
 import App from './App.vue'
+import store from './store';
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store: store,
   template: '<App/>',
   components: { App }
 })

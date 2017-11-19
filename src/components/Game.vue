@@ -34,7 +34,12 @@
 
 <script>
   export default {
-    props: ['question']
+    props: ['question'],
+    methods: {
+      abc($event) {
+        console.log($event);
+      }
+    }
   }
 </script>
 

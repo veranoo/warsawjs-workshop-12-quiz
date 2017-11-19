@@ -1,7 +1,7 @@
 <template>
   <div class="has-text-centered box">
     <h1 class="title">Congratulations, you won!</h1>
-    <h1 class="title ">Your reward: ~~reward~~</h1>
+    <h1 class="title ">Your reward: {{ cash }}</h1>
     <hr>
     <div class="columns">
       <div class="column">
@@ -13,3 +13,15 @@
     </div>
   </div>
 </template>
+
+<script>
+  import { mapGetters } from 'vuex'
+
+  export default {
+    computed: {
+      ...mapGetters({
+        cash: 'cash'
+      })
+    }
+  }
+</script>
