@@ -1,43 +1,48 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Intro from './common/Intro.vue'
-import quizRoutes from './apps/quiz/routes'
-import adminRoutes from './apps/settings/routes'
-import store from './store'
 
-Vue.use(Router)
+import Intro from './components/Intro.vue'
+import RulesView from './components/RulesView.vue'
+import NarrowLayout from './components/NarrowLayout.vue'
+import WonWin from './components/WonView.vue'
+import LostView from './components/LostView.vue'
+import PlayView from './components/PlayView.vue'
 
-const router = new Router({
+Vue.use(Router);
+
+export default new Router({
   mode: 'history',
   routes: [
     {
-      name: 'intro',
-      component: Intro,
-      path: '/'
+      path: '/',
+      component: NarrowLayout,
+      children: [
+        {
+          path: '/',
+          component: Intro,
+          name: 'intro',
+        },
+        {
+          path: '/rules',
+          component: RulesView,
+          name: 'rules'
+        },
+        {
+          path: '/win',
+          component: WonWin,
+          name: 'win'
+        },
+        {
+          path: '/lost',
+          component: LostView,
+          name: 'lost'
+        }
+      ]
     },
-    ...quizRoutes,
-    ...adminRoutes
-  ]
-})
-
-router.beforeEach((to, from, next) => {
-  const routeMeta = to.matched
-    .filter(record => record.meta)
-    .map(record => record.meta)
-  for (const meta of routeMeta) {
-    const requiredQuizStatus = meta.requiredQuizStatus
-    if (requiredQuizStatus) {
-      const currentStatus = store.getters['quiz/status']
-      if (requiredQuizStatus !== currentStatus) {
-        const redirectTarget = meta.redirect || {name: 'game'}
-        redirectTarget.replace = true
-        next(redirectTarget)
-        return
-      }
+    {
+      path: '/play',
+      component: PlayView,
+      name: 'play'
     }
-  }
-
-  next() // make sure to always call next()!
-})
-
-export default router
+  ]
+});

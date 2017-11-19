@@ -1,11 +1,6 @@
-import Vue from 'vue'
-import Loading from './common/Loading.vue'
-import { loadingMixin } from './utils'
+import Vue from 'vue';
 
-Vue.component('o-loading', Loading)
+Vue.filter('currency', value => {
+  return `$ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}`
+});
 
-Vue.mixin(loadingMixin)
-
-Vue.filter('currency', value => '$ ' + value.toString()
-  .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-)

@@ -1,8 +1,8 @@
 import shuffle from 'lodash/shuffle'
 import axios from 'axios'
-import { DIFFICULTY_LEVELS } from '@/common/const'
+import { DIFFICULTY_LEVELS } from './const'
 
-const QUESTION_API_ENDPOINT = 'https://opentdb.com/api.php'
+const QUESTION_API_ENDPOINT = 'https://opentdb.com/api.php?amount=10&difficulty=hard&type=multiple'
 
 const mapApiQuestionToAppQuestion = q => {
   const answers = shuffle([
@@ -19,5 +19,6 @@ const mapApiQuestionToAppQuestion = q => {
 }
 
 export const getQuestions = (amount, difficulty = DIFFICULTY_LEVELS.MEDIUM) =>
-  axios.get(QUESTION_API_ENDPOINT, {params: { amount, difficulty }})
-    .then(response => response.data.results.map(mapApiQuestionToAppQuestion))
+  axios.get(QUESTION_API_ENDPOINT)
+    .then(response => response.data.results
+      .map(mapApiQuestionToAppQuestion))
